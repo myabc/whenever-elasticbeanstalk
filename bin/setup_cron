@@ -20,4 +20,20 @@ unless (`echo $PATH`).match("/usr/local/bin")
 end
 
 roles = ec2.instances[instance_id].tags["leader"].eql?("true") ? ["leader", ENVIRONMENT] : ["non-leader"]
-`./bin/whenever --roles #{roles.join(',')} --set 'environment=#{ENVIRONMENT}&path=/var/app/current' --update-crontab --user root`
+
+# Call whenever with proper environment set up
+%x(
+# Loading environment data
+EB_SCRIPT_DIR=$(/opt/elasticbeanstalk/bin/get-config container -k script_dir)
+EB_SUPPORT_DIR=$(/opt/elasticbeanstalk/bin/get-config container -k support_dir)
+EB_APP_USER=$(/opt/elasticbeanstalk/bin/get-config container -k app_user)
+EB_APP_CURRENT_DIR=$(/opt/elasticbeanstalk/bin/get-config container -k app_deploy_dir)
+
+# Setting up correct environment and ruby version so that bundle can load all gems
+. $EB_SUPPORT_DIR/envvars
+. $EB_SCRIPT_DIR/use-app-ruby.sh
+
+# Now we can do the actual restart of the worker. Make sure to have double quotes when using env vars in the command.
+cd $EB_APP_CURRENT_DIR
+bundle exec whenever --roles #{roles.join(',')} --set 'environment=#{ENVIRONMENT}&path=/var/app/current' --update-crontab --user root
+)
