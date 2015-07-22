@@ -19,4 +19,4 @@ environment_name = ec2.instances[instance_id].tags["elasticbeanstalk:environment
 roles = ec2.instances[instance_id].tags["leader"].eql?("true") ? ["leader", ENVIRONMENT] : ["non-leader"]
 
 # Calls whenever with proper environment set up
-`./bin/run_whenever --roles #{roles.join(',')} --set 'environment=#{ENVIRONMENT}&path=/var/app/current' --update-crontab --user root`
+`#{__dir__}/run_whenever --roles #{roles.join(',')} --set 'environment=#{ENVIRONMENT}&path=/var/app/current' --update-crontab --user root`

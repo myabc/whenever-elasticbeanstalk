@@ -46,5 +46,5 @@ if leader_instances.count < 1
 end
 
 unless options[:no_update]
-	`./bin/setup_cron`
+	`#{__dir__}/setup_cron`
 end

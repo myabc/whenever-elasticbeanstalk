@@ -10,6 +10,5 @@ EB_APP_CURRENT_DIR=$(/opt/elasticbeanstalk/bin/get-config container -k app_deplo
 . $EB_SUPPORT_DIR/envvars
 . $EB_SCRIPT_DIR/use-app-ruby.sh
 
-# Now we can do the actual restart of the worker. Make sure to have double quotes when using env vars in the command.
 cd $EB_APP_CURRENT_DIR
 bundle exec whenever $@
