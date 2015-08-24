@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 
 require           'rubygems'
-gem               'aws-sdk'
-require           'aws-sdk'
+gem               'aws-sdk-v1'
+require           'aws-sdk-v1'
 require           'erb'
 
 ENVIRONMENT = ENV["RACK_ENV"]

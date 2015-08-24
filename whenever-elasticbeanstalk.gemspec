@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.add_dependency('whenever','~> 0.9.4')
-  gem.add_dependency('aws-sdk', '< 2.0')
+  gem.add_dependency('aws-sdk-v1')
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
